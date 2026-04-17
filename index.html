@@ -3,19 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>পাম্প ডিজিটাল কার্ড - নম্বরসহ</title>
+    <title>পাম্প ডিজিটাল কার্ড - স্মার্ট ভ্যালিডেশন</title>
     <style>
         body { font-family: 'Arial', sans-serif; background-color: #f4f7f6; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
         .card { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 8px 25px rgba(0,0,0,0.1); width: 95%; max-width: 400px; text-align: center; }
         h2 { color: #2c3e50; margin-bottom: 15px; font-size: 20px; border-bottom: 2px solid #1a73e8; padding-bottom: 10px; }
         label { display: block; text-align: left; font-size: 13px; font-weight: bold; color: #444; margin-top: 10px; }
         input, select { width: 100%; padding: 12px; margin: 5px 0; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; font-size: 15px; }
+        input:focus { border-color: #1a73e8; outline: none; background-color: #f9fcff; }
         .btn-gen { width: 100%; padding: 15px; background: #1a73e8; color: white; border: none; border-radius: 10px; font-size: 18px; font-weight: bold; cursor: pointer; margin-top: 15px; }
         .btn-download { width: 100%; padding: 12px; background: #27ae60; color: white; border: none; border-radius: 10px; font-size: 16px; margin-top: 15px; cursor: pointer; width: 100%; }
         .hidden { display: none; }
         .qr-header-info { margin-bottom: 15px; padding: 10px; background: #ffffff; border-radius: 10px; border: 2px solid #1a73e8; }
-        #qr-display { background: white; padding: 10px; border-radius: 5px; margin: 10px 0; display: inline-block; }
-        #qr-img { width: 250px; height: 250px; }
+        #qr-display { background: white; padding: 10px; display: inline-block; }
     </style>
 </head>
 <body>
@@ -25,34 +25,45 @@
     
     <div id="input-section">
         <label>মালিকের নাম:</label>
-        <input type="text" id="owner-name" placeholder="MD AKBAR" required>
-        <label>মোবাইল নম্বর:</label>
-        <input type="tel" id="mobile" maxlength="11" placeholder="017XXXXXXXX" required>
+        <input type="text" id="owner-name" placeholder="Ex: MD AKBAR">
+
+        <label>মোবাইল নম্বর (ঠিক ১১ ডিজিট হতে হবে):</label>
+        <input type="text" id="mobile" maxlength="11" placeholder="017XXXXXXXX" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+
         <label>BRTA সার্কেল:</label>
         <select id="brta-name">
-            <option value="">সিলেক্ট করুন</option>
+            <option value="">-- নির্বাচন করুন --</option>
             <option value="DHAKA-METRO">DHAKA-METRO</option>
             <option value="CHATTOGRAM-METRO">CHATTOGRAM-METRO</option>
             <option value="SYLHET-METRO">SYLHET-METRO</option>
             <option value="RAJSHAHI-METRO">RAJSHAHI-METRO</option>
             <option value="KHULNA-METRO">KHULNA-METRO</option>
-            <option value="BARISHAL-METRO">BARISHAL-METRO</option>
-            <option value="RANGPUR-METRO">RANGPUR-METRO</option>
-            <option value="GAZIPUR-METRO">GAZIPUR-METRO</option>
             <option value="FENI">FENI</option>
+            <option value="CUMILLA">CUMILLA</option>
             <option value="NOAKHALI">NOAKHALI</option>
         </select>
-        <label>গাড়ি নম্বর (৬ ডিজিট):</label>
-        <input type="text" id="car-no" maxlength="6" placeholder="123456" required>
-        <label>লাইসেন্স (শেষ ৫ ডিজিট):</label>
-        <input type="text" id="license" maxlength="5" placeholder="54321" required>
+
+        <label>গাড়ির ধরণ:</label>
+        <select id="vehicle-type">
+            <option value="">-- নির্বাচন করুন --</option>
+            <option value="Motorcycle">Motorcycle</option>
+            <option value="Car">Car</option>
+            <option value="Others">Others</option>
+        </select>
+
+        <label>গাড়ি নম্বর (ঠিক ৬ ডিজিট হতে হবে):</label>
+        <input type="text" id="car-no" maxlength="6" placeholder="123456" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+
+        <label>লাইসেন্স (ঠিক ৫ ডিজিট হতে হবে):</label>
+        <input type="text" id="license" maxlength="5" placeholder="54321" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+
         <button class="btn-gen" onclick="generateCard()">QR কোড তৈরি করুন</button>
     </div>
 
     <div id="qr-section" class="hidden">
         <div class="qr-header-info">
             <h3 id="top-name" style="margin:5px 0; color:#1a73e8;"></h3>
-            <p id="top-car" style="margin:0; font-weight:bold; font-size:20px; color:#333;"></p>
+            <p id="top-car-display" style="margin:0; font-weight:bold; font-size:22px; color:#333;"></p>
         </div>
         <div id="qr-display"></div>
         <button class="btn-download" onclick="downloadFinalQR()">গ্যালারিতে সেভ করুন</button>
@@ -68,35 +79,48 @@
         let name = document.getElementById('owner-name').value.trim().toUpperCase();
         let mobile = document.getElementById('mobile').value.trim();
         let brta = document.getElementById('brta-name').value;
+        let vType = document.getElementById('vehicle-type').value;
         let car = document.getElementById('car-no').value.trim();
         let license = document.getElementById('license').value.trim();
 
-        if(!name || mobile.length !== 11 || !brta || car.length !== 6 || license.length !== 5) {
-            alert("সব তথ্য সঠিকভাবে দিন।"); return;
+        // ঘরভিত্তিক বিস্তারিত ওয়ার্নিং মেসেজ
+        let errors = [];
+
+        if (!name) errors.push("● মালিকের নাম লিখুন।");
+        if (mobile.length !== 11) errors.push("● মোবাইল নম্বর ঠিক ১১ ডিজিট হতে হবে।");
+        if (!brta) errors.push("● BRTA সার্কেল নির্বাচন করুন।");
+        if (!vType) errors.push("● গাড়ির ধরণ নির্বাচন করুন।");
+        if (car.length !== 6) errors.push("● গাড়ি নম্বর ঠিক ৬ ডিজিট হতে হবে।");
+        if (license.length !== 5) errors.push("● লাইসেন্স নম্বর ঠিক ৫ ডিজিট হতে হবে।");
+
+        if (errors.length > 0) {
+            alert("⚠️ নিচের ভুলগুলো সংশোধন করুন:\n\n" + errors.join("\n"));
+            return;
         }
 
+        // সব ঠিক থাকলে ডিসপ্লে চেঞ্জ
         document.getElementById('input-section').classList.add('hidden');
         document.getElementById('qr-section').classList.remove('hidden');
         document.getElementById('top-name').innerText = name;
-        document.getElementById('top-car').innerText = car; // শুধু ৬ ডিজিট নম্বর
+        document.getElementById('top-car-display').innerText = brta + " " + car;
 
-        let qrData = `${name},${mobile},${brta},${car},${license}`;
+        let qrData = `${name},${mobile},${brta},${car},${license},${vType}`;
         let qrUrl = "https://api.qrserver.com/v1/create-qr-code/?size=400x400&bgcolor=ffffff&data=" + encodeURIComponent(qrData);
         
-        document.getElementById('qr-display').innerHTML = `<img id="qr-img" src="${qrUrl}" crossorigin="anonymous">`;
+        document.getElementById('qr-display').innerHTML = `<img id="qr-img" src="${qrUrl}" crossorigin="anonymous" style="width:250px;">`;
     }
 
     async function downloadFinalQR() {
         const img = document.getElementById('qr-img');
         const canvas = document.getElementById('qr-canvas');
         const ctx = canvas.getContext('2d');
+        const brta = document.getElementById('brta-name').value;
         const carNo = document.getElementById('car-no').value.trim();
+        const fullInfo = brta + " " + carNo;
 
-        // ক্যানভাস সাইজ (কিউআর কোড + নিচের টেক্সটের জন্য জায়গা)
         canvas.width = 400;
-        canvas.height = 500; 
+        canvas.height = 550;
 
-        // ১. সাদা ব্যাকগ্রাউন্ড
         ctx.fillStyle = "#ffffff";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -105,19 +129,15 @@
         tempImg.src = img.src;
         
         tempImg.onload = function() {
-            // ২. কিউআর কোড ড্র করা
             ctx.drawImage(tempImg, 0, 0, 400, 400);
-            
-            // ৩. নিচে গাড়ির নম্বর লেখা (ইংরেজি অক্ষরে)
-            ctx.fillStyle = "#000000"; // কালো রঙ
-            ctx.font = "bold 60px Arial"; // বড় এবং স্পষ্ট ফন্ট
+            ctx.fillStyle = "#000000";
+            ctx.font = "bold 35px Arial";
             ctx.textAlign = "center";
-            ctx.fillText(carNo, 200, 460); // নম্বরটি কিউআর কোডের নিচে বসবে
+            ctx.fillText(fullInfo, 200, 480); 
             
-            // ৪. সেভ করা
             const link = document.createElement('a');
             link.download = carNo + '_PumpCard.png';
-            link.href = canvas.toDataURL('image/png', 1.0);
+            link.href = canvas.toDataURL('image/png');
             link.click();
         };
     }
