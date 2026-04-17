@@ -8,7 +8,6 @@
         body { font-family: 'Arial', sans-serif; background-color: #f4f7f6; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
         .card { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 8px 25px rgba(0,0,0,0.1); width: 95%; max-width: 400px; text-align: center; }
         
-        /* নাম সেকশন স্টাইল */
         .brand-name { margin-bottom: 20px; border-bottom: 2px solid #1a73e8; padding-bottom: 10px; }
         .brand-name h2 { color: #1a73e8; margin: 0; font-size: 22px; }
         .brand-name p { color: #555; margin: 5px 0 0; font-weight: bold; font-size: 14px; }
@@ -19,15 +18,26 @@
         .btn-download { width: 100%; padding: 12px; background: #27ae60; color: white; border: none; border-radius: 10px; font-size: 16px; margin-top: 15px; cursor: pointer; width: 100%; }
         .hidden { display: none; }
         
+        /* কার্ড বর্ডার স্টাইল */
         #print-area { 
             border: 3px solid #1a73e8; 
             padding: 15px; 
             border-radius: 15px; 
             display: inline-block; 
             background: #fff;
+            margin: 0 auto;
         }
         .qr-header-info { margin-bottom: 15px; border-bottom: 2px dashed #ccc; padding-bottom: 10px; }
         #qr-display img { width: 250px; height: 250px; display: block; margin: 0 auto; }
+
+        /* প্রিন্ট সেটিংস: এক পেজে রাখার জন্য */
+        @media print {
+            @page { size: auto; margin: 0; }
+            body { background: white; margin: 0; padding: 0; }
+            .card, .btn-download, .btn-gen, #input-section, .brand-name, button { display: none !important; }
+            #qr-section { display: block !important; width: 100%; height: 100vh; display: flex !important; justify-content: center; align-items: center; }
+            #print-area { border: 2px solid #1a73e8; }
+        }
     </style>
 </head>
 <body>
@@ -59,8 +69,8 @@
                 <option value="SYLHET-METRO">SYLHET-METRO</option>
             </optgroup>
             <optgroup label="জেলা সার্কেল">
-                <option value="BAGERHAT">BAGERHAT</option><option value="BANDARBAN">BANDARBAN</option><option value="BARGUNA">BARGUNA</option><option value="BARISHAL">BARISHAL</option><option value="BHOLA">BHOLA</option><option value="BOGURA">BOGURA</option><option value="BRAHMANBARIA">BRAHMANBARIA</option><option value="CHANDPUR">CHANDPUR</option><option value="CHAPAINAWABGANJ">CHAPAINAWABGANJ</option><option value="CHATTOGRAM">CHATTOGRAM</option><option value="CHUADANGA">CHUADANGA</option><option value="CUMILLA">CUMILLA</option><option value="COX-BAZAR">COX-BAZAR</option><option value="DHAKA">DHAKA</option><option value="DINAJPUR">DINAJPUR</option><option value="FARIDPUR">FARIDPUR</option><option value="FENI">FENI</option><option value="GAIBANDHA">GAIBANDHA</option><option value="GAZIPUR">GAZIPUR</option><option value="GOPALGANJ">GOPALGANJ</option><option value="HABIGANJ">HABIGANJ</option><option value="JAMALPUR">JAMALPUR</option><option value="JESSORE">JESSORE</option><option value="JHALOKATI">JHALOKATI</option><option value="JHENAIDAH">JHENAIDAH</option><option value="JOYPURHAT">JOYPURHAT</option><option value="KHAGRACHHARI">KHAGRACHHARI</option><option value="KHULNA">KHULNA</option><option value="KISHOREGANJ">KISHOREGANJ</option><option value="KURIGRAM">KURIGRAM</option><option value="KUSHTIA">KUSHTIA</option><option value="LAKSHMIPUR">LAKSHMIPUR</option><option value="LALMONIRHAT">LALMONIRHAT</option><option value="MADARIPUR">MADARIPUR</option><option value="MAGURA">MAGURA</option><option value="MANIKGANJ">MANIKGANJ</option><option value="MEHERPUR">MEHERPUR</option><option value="MOULVIBAZAR">MOULVIBAZAR</option><option value="MUNSHIGANJ">MUNSHIGANJ</option><option value="MYMENSINGH">MYMENSINGH</option><option value="NAOGAON">NAOGAON</option><option value="NARAIL">NARAIL</option><option value="NARAYANGANJ">NARAYANGANJ</option><option value="NARSINGDI">NARSINGDI</option><option value="NATORE">NATORE</option><option value="NETROKONA">NETROKONA</option><option value="NILPHAMARI">NILPHAMARI</option><option value="NOAKHALI">NOAKHALI</option><option value="PABNA">PABNA</option><option value="PANCHAGARH">PANCHAGARH</option><option value="PATUAKHALI">PATUAKHALI</option><option value="PIROJPUR">PIROJPUR</option><option value="RAJBARI">RAJBARI</option><option value="RAJSHAHI">RAJSHAHI</option><option value="RANGAMATI">RANGAMATI</option><option value="RANGPUR">RANGPUR</option><option value="SATKHIRA">SATKHIRA</option><option value="SHARIATPUR">SHARIATPUR</option><option value="SHERPUR">SHERPUR</option><option value="SIRAJGANJ">SIRAJGANJ</option><option value="SUNAMGANJ">SUNAMGANJ</option><option value="SYLHET">SYLHET</option><option value="TANGAIL">TANGAIL</option><option value="THAKURGAON">THAKURGAON</option>
-            </optgroup>
+                <option value="DHAKA">DHAKA</option><option value="GAZIPUR">GAZIPUR</option><option value="NARAYANGANJ">NARAYANGANJ</option><option value="CHATTOGRAM">CHATTOGRAM</option><option value="BOGURA">BOGURA</option>
+                </optgroup>
         </select>
 
         <label>গাড়ির ধরণ:</label>
@@ -89,7 +99,7 @@
             <div id="qr-display"></div>
         </div>
         <button class="btn-download" onclick="downloadFinalQR()">গ্যালারিতে সেভ করুন</button>
-        <button class="btn-download" style="background:#1a73e8;" onclick="printCard()">প্রিন্ট করুন</button>
+        <button class="btn-download" style="background:#1a73e8;" onclick="window.print()">প্রিন্ট করুন</button>
         <button style="margin-top:15px; color:red; cursor:pointer; background:none; border:none; text-decoration:underline;" onclick="location.reload()">তথ্য সংশোধন</button>
     </div>
 </div>
@@ -105,17 +115,16 @@
         let car = document.getElementById('car-no').value.trim();
         let license = document.getElementById('license').value.trim();
 
-        // বিস্তারিত এরর মেসেজ
         let errors = [];
-        if (!name) errors.push("● মালিকের নাম লিখুন (ইংরেজিতে)।");
-        if (mobile.length !== 11) errors.push("● মোবাইল নম্বরটি ঠিক ১১ ডিজিটের হতে হবে।");
-        if (!brta) errors.push("● BRTA সার্কেলটি নির্বাচন করুন।");
+        if (!name) errors.push("● মালিকের নাম লিখুন।");
+        if (mobile.length !== 11) errors.push("● মোবাইল ঠিক ১১ ডিজিট হতে হবে।");
+        if (!brta) errors.push("● BRTA সার্কেল নির্বাচন করুন।");
         if (!vType) errors.push("● গাড়ির ধরণ নির্বাচন করুন।");
-        if (car.length !== 6) errors.push("● গাড়ি নম্বরটি ঠিক ৬ ডিজিটের হতে হবে।");
-        if (license.length !== 4) errors.push("● লাইসেন্সের শেষের ৪টি ডিজিট সঠিকভাবে লিখুন।");
+        if (car.length !== 6) errors.push("● গাড়ি নম্বর ঠিক ৬ ডিজিট হতে হবে।");
+        if (license.length !== 4) errors.push("● লাইসেন্সের শেষের ৪টি ডিজিট দিন।");
 
         if (errors.length > 0) {
-            alert("⚠️ নিচের ভুলগুলো সংশোধন করুন:\n\n" + errors.join("\n"));
+            alert("⚠️ ভুলগুলো সংশোধন করুন:\n\n" + errors.join("\n"));
             return;
         }
 
@@ -130,22 +139,6 @@
         document.getElementById('qr-display').innerHTML = `<img id="qr-img" src="${qrUrl}" crossorigin="anonymous">`;
     }
 
-    function printCard() {
-        const printContent = document.getElementById('print-area').outerHTML;
-        const printWindow = window.open('', '', 'height=600,width=800');
-        printWindow.document.write('<html><head><title>Fuel Registration Print</title>');
-        printWindow.document.write('<style>body{display:flex;justify-content:center;align-items:center;height:100vh;text-align:center;font-family:Arial;} #print-area{border:3px solid #1a73e8; padding:20px; border-radius:15px; width:3.5in;} .qr-header-info{border-bottom:2px dashed #ccc; margin-bottom:15px; padding-bottom:10px;} h3{margin:5px 0; color:#1a73e8; text-transform:uppercase;} p{margin:0; font-weight:bold; font-size:22px;} img{width:2.5in;}</style>');
-        printWindow.document.write('</head><body>');
-        printWindow.document.write(printContent);
-        printWindow.document.write('</body></html>');
-        printWindow.document.close();
-        
-        setTimeout(() => {
-            printWindow.print();
-            printWindow.close();
-        }, 600);
-    }
-
     async function downloadFinalQR() {
         const img = document.getElementById('qr-img');
         const canvas = document.getElementById('qr-canvas');
@@ -156,7 +149,6 @@
         canvas.width = 450; canvas.height = 600;
         ctx.fillStyle = "#ffffff";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
-
         ctx.strokeStyle = "#1a73e8";
         ctx.lineWidth = 10;
         ctx.strokeRect(5, 5, canvas.width-10, canvas.height-10);
@@ -171,7 +163,7 @@
             ctx.textAlign = "center";
             ctx.fillText(brta + " " + carNo, 225, 530); 
             const link = document.createElement('a');
-            link.download = carNo + '_FuelRegistration.jpg';
+            link.download = carNo + '_FuelCard.jpg';
             link.href = canvas.toDataURL('image/jpeg', 0.9);
             link.click();
         };
