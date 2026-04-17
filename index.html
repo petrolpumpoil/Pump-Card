@@ -2,113 +2,79 @@
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>??????? ????? ?????</title>
+    <title>ডিজিটাল পাম্প কার্ড</title>
     <style>
-        body { font-family: 'Segoe UI', Arial, sans-serif; background-color: #f0f2f5; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        body { font-family: 'Arial', sans-serif; background-color: #f0f2f5; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
         .card { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 90%; max-width: 380px; text-align: center; }
         h2 { color: #1a73e8; margin-bottom: 10px; }
-        input, select { width: 100%; padding: 15px; margin: 10px 0; border: 2px solid #ddd; border-radius: 10px; box-sizing: border-box; font-size: 16px; background-color: #fff; }
+        input, select { width: 100%; padding: 15px; margin: 10px 0; border: 2px solid #ddd; border-radius: 10px; box-sizing: border-box; font-size: 16px; }
         .btn-gen { width: 100%; padding: 15px; background: #1a73e8; color: white; border: none; border-radius: 10px; font-size: 18px; font-weight: bold; cursor: pointer; margin-top: 10px; }
         .btn-download { width: 100%; padding: 12px; background: #27ae60; color: white; border: none; border-radius: 10px; font-size: 16px; margin-top: 15px; cursor: pointer; text-decoration: none; display: inline-block; }
         .btn-reset { background: none; color: #d93025; border: none; margin-top: 20px; cursor: pointer; font-size: 14px; text-decoration: underline; }
-        #qr-display { margin-top: 20px; }
-        img { border: 5px solid #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.1); border-radius: 10px; max-width: 220px; }
         .hidden { display: none; }
         label { display: block; text-align: left; font-size: 14px; font-weight: bold; color: #555; margin-top: 5px; }
     </style>
 </head>
 <body>
-
 <div class="card">
-    <h2>????? ??????? ?????</h2>
-    
+    <h2>পাম্প ডিজিটাল কার্ড</h2>
     <div id="input-section">
-        <p>????? ???? ???? ????? ???? ????</p>
-        
-        <label>????? ???:</label>
-        <input type="text" id="name" placeholder="???: MD AKBAR">
-        
-        <label>?????? ?????:</label>
+        <p>তথ্য দিয়ে কার্ড তৈরি করুন</p>
+        <label>আপনার নাম (English):</label>
+        <input type="text" id="name" placeholder="Ex: MD AKBAR">
+        <label>মোবাইল নম্বর:</label>
         <input type="tel" id="phone" placeholder="017XXXXXXXX" maxlength="11">
-        
-        <label>????? ??? ??????? ????:</label>
+        <label>তেলের ধরণ:</label>
         <select id="fuel-type">
-            <option value="DIESEL">????? (Diesel)</option>
-            <option value="OCTANE">????? (Octane)</option>
-            <option value="PETROL">??????? (Petrol)</option>
+            <option value="DIESEL">ডিজেল (Diesel)</option>
+            <option value="OCTANE">অকটেন (Octane)</option>
+            <option value="PETROL">পেট্রোল (Petrol)</option>
         </select>
-        
-        <button class="btn-gen" onclick="saveAndGenerate()">QR ??? ???? ????</button>
+        <button class="btn-gen" onclick="saveAndGenerate()">QR কোড তৈরি করুন</button>
     </div>
-
     <div id="qr-section" class="hidden">
         <p id="welcome-msg"></p>
         <div id="qr-display"></div>
-        <button class="btn-download" onclick="downloadQR()">QR ??? ??????? ????</button>
+        <button class="btn-download" onclick="downloadQR()">QR ডাউনলোড করুন</button>
         <br>
-        <button class="btn-reset" onclick="resetData()">???? ???????? ????</button>
+        <button class="btn-reset" onclick="resetData()">তথ্য পরিবর্তন</button>
     </div>
 </div>
-
 <script>
     window.onload = function() {
-        let savedName = localStorage.getItem("pump_user_name");
-        let savedPhone = localStorage.getItem("pump_user_phone");
-        let savedFuel = localStorage.getItem("pump_user_fuel");
-
-        if(savedName && savedPhone && savedFuel) {
-            showQR(savedName, savedPhone, savedFuel);
-        }
+        let savedName = localStorage.getItem("p_n");
+        let savedPhone = localStorage.getItem("p_p");
+        let savedFuel = localStorage.getItem("p_f");
+        if(savedName && savedPhone) { showQR(savedName, savedPhone, savedFuel); }
     };
-
     function saveAndGenerate() {
         let name = document.getElementById('name').value.trim().toUpperCase();
         let phone = document.getElementById('phone').value.trim();
         let fuel = document.getElementById('fuel-type').value;
-
         if(name && phone.length == 11) {
-            localStorage.setItem("pump_user_name", name);
-            localStorage.setItem("pump_user_phone", phone);
-            localStorage.setItem("pump_user_fuel", fuel);
+            localStorage.setItem("p_n", name); localStorage.setItem("p_p", phone); localStorage.setItem("p_f", fuel);
             showQR(name, phone, fuel);
-        } else {
-            alert("???? ??? ??? ????? ????");
-        }
+        } else { alert("সঠিক তথ্য দিন।"); }
     }
-
     function showQR(name, phone, fuel) {
         document.getElementById('input-section').classList.add('hidden');
         document.getElementById('qr-section').classList.remove('hidden');
-        document.getElementById('welcome-msg').innerHTML = `???????, <b>${name}</b><br><small>????? ???: ${fuel}</small>`;
-
-        // ????? ???? ??? ???, ????? ??? ????? ??? ?????? ?????
-        let combinedData = name + "," + phone + "," + fuel;
-        let qrUrl = "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=" + encodeURIComponent(combinedData);
-        
-        document.getElementById('qr-display').innerHTML = `<img id="qr-img" src="${qrUrl}" alt="QR Code">`;
+        document.getElementById('welcome-msg').innerHTML = "স্বাগতম, " + name + "<br>তেল: " + fuel;
+        let data = name + "," + phone + "," + fuel;
+        let url = "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=" + encodeURIComponent(data);
+        document.getElementById('qr-display').innerHTML = '<img id="qr-img" src="'+url+'" style="max-width:200px; border:5px solid #fff; shadow:0 4px 10px rgba(0,0,0,0.1);">';
     }
-
     async function downloadQR() {
         let img = document.getElementById('qr-img');
-        let response = await fetch(img.src);
-        let blob = await response.blob();
+        let res = await fetch(img.src);
+        let blob = await res.blob();
         let url = window.URL.createObjectURL(blob);
-        let a = document.createElement('a');
-        a.href = url;
-        a.download = "My_Pump_QR.png";
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
+        let a = document.createElement('a'); a.href = url; a.download = "Pump_QR.png"; a.click();
     }
-
-    function resetData() {
-        if(confirm("???? ?? ???? ???????? ???? ????")) {
-            localStorage.clear();
-            location.reload();
-        }
-    }
+    function resetData() { if(confirm("পরিবর্তন করতে চান?")) { localStorage.clear(); location.reload(); } }
 </script>
-
 </body>
 </html>
+
