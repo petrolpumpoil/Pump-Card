@@ -2,9 +2,8 @@
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>পাম্প ডিজিটাল কার্ড - ফুল বিআরটিএ লিস্ট</title>
+    <title>পাম্প ডিজিটাল কার্ড - ফিক্সড ব্যাকগ্রাউন্ড</title>
     <style>
         body { font-family: 'Arial', sans-serif; background-color: #f4f7f6; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
         .card { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 8px 25px rgba(0,0,0,0.1); width: 95%; max-width: 400px; text-align: center; }
@@ -12,82 +11,41 @@
         label { display: block; text-align: left; font-size: 13px; font-weight: bold; color: #444; margin-top: 10px; }
         input, select { width: 100%; padding: 12px; margin: 5px 0; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; font-size: 15px; }
         .btn-gen { width: 100%; padding: 15px; background: #1a73e8; color: white; border: none; border-radius: 10px; font-size: 18px; font-weight: bold; cursor: pointer; margin-top: 15px; }
-        .btn-download { width: 100%; padding: 12px; background: #27ae60; color: white; border: none; border-radius: 10px; font-size: 16px; margin-top: 15px; cursor: pointer; display: inline-block; text-decoration: none; }
+        .btn-download { width: 100%; padding: 12px; background: #27ae60; color: white; border: none; border-radius: 10px; font-size: 16px; margin-top: 15px; cursor: pointer; }
         .hidden { display: none; }
         .qr-header-info { margin-bottom: 15px; padding: 10px; background: #ffffff; border-radius: 10px; border: 2px solid #1a73e8; }
-        .qr-header-info h3 { margin: 5px 0; color: #1a73e8; font-size: 20px; }
+        .qr-header-info h3 { margin: 5px 0; color: #1a73e8; font-size: 20px; text-transform: uppercase; }
         .qr-header-info p { margin: 0; font-weight: bold; font-size: 18px; color: #333; }
-        #qr-display { background: white; padding: 10px; display: inline-block; border-radius: 5px; }
+        #qr-display { background: white; padding: 15px; border-radius: 5px; margin: 10px 0; display: inline-block; }
     </style>
 </head>
 <body>
 
 <div class="card">
-    <h2>পাম্প ডিজিটাল কার্ড জেনারেটর</h2>
+    <h2>পাম্প ডিজিটাল কার্ড</h2>
     
     <div id="input-section">
-        <label>মালিকের নাম (English):</label>
-        <input type="text" id="owner-name" placeholder="Ex: MD AKBAR" required>
-
-        <label>মোবাইল নম্বর (১১ ডিজিট):</label>
-        <input type="tel" id="mobile" placeholder="017XXXXXXXX" maxlength="11" required>
-
-        <label>BRTA সার্কেল নির্বাচন করুন:</label>
+        <label>মালিকের নাম:</label>
+        <input type="text" id="owner-name" placeholder="Name" required>
+        <label>মোবাইল নম্বর:</label>
+        <input type="tel" id="mobile" maxlength="11" placeholder="017XXXXXXXX" required>
+        <label>BRTA সার্কেল:</label>
         <select id="brta-name">
             <option value="">সিলেক্ট করুন</option>
             <optgroup label="মেট্রো সার্কেল">
-                <option value="DHAKA-METRO">ঢাকা মেট্রো</option>
-                <option value="CHATTOGRAM-METRO">চট্টগ্রাম মেট্রো</option>
-                <option value="KHULNA-METRO">খুলনা মেট্রো</option>
-                <option value="RAJSHAHI-METRO">রাজশাহী মেট্রো</option>
-                <option value="SYLHET-METRO">সিলেট মেট্রো</option>
-                <option value="BARISHAL-METRO">বরিশাল মেট্রো</option>
-                <option value="RANGPUR-METRO">রংপুর মেট্রো</option>
-                <option value="GAZIPUR-METRO">গাজীপুর মেট্রো</option>
+                <option value="DHAKA-METRO">ঢাকা মেট্রো</option><option value="CHATTOGRAM-METRO">চট্টগ্রাম মেট্রো</option>
+                <option value="KHULNA-METRO">খুলনা মেট্রো</option><option value="RAJSHAHI-METRO">রাজশাহী মেট্রো</option>
+                <option value="SYLHET-METRO">সিলেট মেট্রো</option><option value="BARISHAL-METRO">বরিশাল মেট্রো</option>
+                <option value="RANGPUR-METRO">রংপুর মেট্রো</option><option value="GAZIPUR-METRO">গাজীপুর মেট্রো</option>
             </optgroup>
-            <optgroup label="জেলা সার্কেল (সকল)">
-                <option value="BAGERHAT">বাগেরহাট</option><option value="BANDARBAN">বান্দরবান</option>
-                <option value="BARGUNA">বরগুনা</option><option value="BARISHAL">বরিশাল</option>
-                <option value="BHOLA">ভোলা</option><option value="BOGURA">বগুড়া</option>
-                <option value="BRAHMANBARIA">ব্রাহ্মণবাড়িয়া</option><option value="CHANDPUR">চাঁদপুর</option>
-                <option value="CHAPAINAWABGANJ">চাঁপাইনবাবগঞ্জ</option><option value="CHATTOGRAM">চট্টগ্রাম</option>
-                <option value="CHUADANGA">চুয়াডাঙ্গা</option><option value="CUMILLA">কুমিল্লা</option>
-                <option value="COX-BAZAR">কক্সবাজার</option><option value="DHAKA">ঢাকা</option>
-                <option value="DINAJPUR">দিনাজপুর</option><option value="FARIDPUR">ফরিদপুর</option>
-                <option value="FENI">ফেনী</option><option value="GAIBANDHA">গাইবান্ধা</option>
-                <option value="GAZIPUR">গাজীপুর</option><option value="GOPALGANJ">গোপালগঞ্জ</option>
-                <option value="HABIGANJ">হবিগঞ্জ</option><option value="JAMALPUR">জামালপুর</option>
-                <option value="JESSORE">যশোর</option><option value="JHALOKATI">ঝালকাঠি</option>
-                <option value="JHENAIDAH">ঝিনাইদহ</option><option value="JOYPURHAT">জয়পুরহাট</option>
-                <option value="KHAGRACHHARI">খাগড়াছড়ি</option><option value="KHULNA">খুলনা</option>
-                <option value="KISHOREGANJ">কিশোরগঞ্জ</option><option value="KURIGRAM">কুড়িগ্রাম</option>
-                <option value="KUSHTIA">কুষ্টিয়া</option><option value="LAKSHMIPUR">লক্ষ্মীপুর</option>
-                <option value="LALMONIRHAT">লালমনিরহাট</option><option value="MADARIPUR">মাদারীপুর</option>
-                <option value="MAGURA">মাগুরা</option><option value="MANIKGANJ">মানিকগঞ্জ</option>
-                <option value="MEHERPUR">মেহেরপুর</option><option value="MOULVIBAZAR">মৌলভীবাজার</option>
-                <option value="MUNSHIGANJ">মুন্সীগঞ্জ</option><option value="MYMENSINGH">ময়মনসিংহ</option>
-                <option value="NAOGAON">নওগাঁ</option><option value="NARAIL">নড়াইল</option>
-                <option value="NARAYANGANJ">নারায়ণগঞ্জ</option><option value="NARSINGDI">নরসিংদী</option>
-                <option value="NATORE">নাটোর</option><option value="NETROKONA">নেত্রকোণা</option>
-                <option value="NILPHAMARI">নীলফামারী</option><option value="NOAKHALI">নোয়াখালী</option>
-                <option value="PABNA">পাবনা</option><option value="PANCHAGARH">পঞ্চগড়</option>
-                <option value="PATUAKHALI">পটুয়াখালী</option><option value="PIROJPUR">পিরোজপুর</option>
-                <option value="RAJBARI">রাজবাড়ী</option><option value="RAJSHAHI">রাজশাহী</option>
-                <option value="RANGAMATI">রাঙ্গামাটি</option><option value="RANGPUR">রংপুর</option>
-                <option value="SATKHIRA">সাতক্ষীরা</option><option value="SHARIATPUR">শরীয়তপুর</option>
-                <option value="SHERPUR">শেরপুর</option><option value="SIRAJGANJ">সিরাজগঞ্জ</option>
-                <option value="SUNAMGANJ">সুনামগঞ্জ</option><option value="SYLHET">সিলেট</option>
-                <option value="TANGAIL">টাঙ্গাইল</option><option value="THAKURGAON">ঠাকুরগাঁও</option>
-            </optgroup>
-        </select>
-
-        <label>গাড়ি নম্বর (শুধুমাত্র ৬ ডিজিট, কোনো স্পেস নেই):</label>
-        <input type="text" id="car-no" placeholder="Ex: 123456" maxlength="6" required>
-
-        <label>ড্রাইভিং লাইসেন্স (শেষ ৫ ডিজিট):</label>
-        <input type="text" id="license" placeholder="Ex: 54321" maxlength="5" required>
-
-        <button class="btn-gen" onclick="generateCard()">QR কোড তৈরি করুন</button>
+            <option value="FENI">ফেনী</option><option value="NOAKHALI">নোয়াখালী</option>
+            <option value="CUMILLA">কুমিল্লা</option><option value="BOGURA">বগুড়া</option>
+            </select>
+        <label>গাড়ি নম্বর (৬ ডিজিট):</label>
+        <input type="text" id="car-no" maxlength="6" placeholder="123456" required>
+        <label>লাইসেন্স (শেষ ৫ ডিজিট):</label>
+        <input type="text" id="license" maxlength="5" placeholder="54321" required>
+        <button class="btn-gen" onclick="generateCard()">কার্ড তৈরি করুন</button>
     </div>
 
     <div id="qr-section" class="hidden">
@@ -95,14 +53,15 @@
             <h3 id="top-name"></h3>
             <p id="top-car"></p>
         </div>
-
-        <div id="qr-display"></div>
-
-        <button class="btn-download" onclick="downloadQR()">কার্ডটি সেভ করুন</button>
+        <div id="qr-display">
+            </div>
+        <button class="btn-download" onclick="downloadFinalQR()">গ্যালারিতে সেভ করুন</button>
         <br>
-        <button style="background:none; border:none; color:red; text-decoration:underline; cursor:pointer; margin-top:15px;" onclick="location.reload()">তথ্য সংশোধন</button>
+        <button style="margin-top:15px; color:red; cursor:pointer; background:none; border:none; text-decoration:underline;" onclick="location.reload()">তথ্য সংশোধন</button>
     </div>
 </div>
+
+<canvas id="qr-canvas" style="display:none;"></canvas>
 
 <script>
     function generateCard() {
@@ -112,37 +71,48 @@
         let car = document.getElementById('car-no').value.trim();
         let license = document.getElementById('license').value.trim();
 
-        if(!name || mobile.length !== 11 || !brta || car.length !== 6 || license.length !== 5 || car.includes(" ")) {
-            alert("সব তথ্য সঠিকভাবে দিন। গাড়ি নম্বর ৬ ডিজিট ও স্পেস ছাড়া হতে হবে।");
-            return;
+        if(!name || mobile.length !== 11 || !brta || car.length !== 6 || license.length !== 5) {
+            alert("সব তথ্য সঠিকভাবে দিন।"); return;
         }
 
         document.getElementById('input-section').classList.add('hidden');
         document.getElementById('qr-section').classList.remove('hidden');
-
         document.getElementById('top-name').innerText = name;
         document.getElementById('top-car').innerText = brta + " - " + car;
 
-        // AppSheet Ready CSV Format
         let qrData = `${name},${mobile},${brta},${car},${license}`;
+        let qrUrl = "https://api.qrserver.com/v1/create-qr-code/?size=400x400&bgcolor=ffffff&data=" + encodeURIComponent(qrData);
         
-        // ব্যাকগ্রাউন্ড সাদা (bgcolor=ffffff) নিশ্চিত করা হয়েছে
-        let qrUrl = "https://api.qrserver.com/v1/create-qr-code/?size=300x300&bgcolor=ffffff&data=" + encodeURIComponent(qrData);
-        
-        document.getElementById('qr-display').innerHTML = `<img id="qr-img" src="${qrUrl}" style="width:200px; border:1px solid #ddd;">`;
+        document.getElementById('qr-display').innerHTML = `<img id="qr-img" src="${qrUrl}" crossorigin="anonymous" style="width:250px; height:250px;">`;
     }
 
-    async function downloadQR() {
-        let img = document.getElementById('qr-img');
-        let res = await fetch(img.src);
-        let blob = await res.blob();
-        let url = window.URL.createObjectURL(blob);
-        let a = document.createElement('a');
-        a.href = url;
-        a.download = "Pump_Card.png";
-        a.click();
+    async function downloadFinalQR() {
+        const img = document.getElementById('qr-img');
+        const canvas = document.getElementById('qr-canvas');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = 400;
+        canvas.height = 400;
+
+        // ১. আগে পুরো ক্যানভাসে সাদা রঙ ভরাট করা (যাতে কালো না হয়)
+        ctx.fillStyle = "#ffffff";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        // ২. কিউআর কোডটি সাদা ব্যাকগ্রাউন্ডের ওপর বসানো
+        const tempImg = new Image();
+        tempImg.crossOrigin = "anonymous";
+        tempImg.src = img.src;
+        
+        tempImg.onload = function() {
+            ctx.drawImage(tempImg, 0, 0, 400, 400);
+            
+            // ৩. ডাউনলোড শুরু
+            const link = document.createElement('a');
+            link.download = 'Digital_Pump_Card.png';
+            link.href = canvas.toDataURL('image/png', 1.0);
+            link.click();
+        };
     }
 </script>
 </body>
 </html>
-
