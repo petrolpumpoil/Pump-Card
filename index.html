@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>পাম্প ডিজিটাল কার্ড - ফিক্সড ব্যাকগ্রাউন্ড</title>
+    <title>পাম্প ডিজিটাল কার্ড - নম্বরসহ</title>
     <style>
         body { font-family: 'Arial', sans-serif; background-color: #f4f7f6; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
         .card { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 8px 25px rgba(0,0,0,0.1); width: 95%; max-width: 400px; text-align: center; }
@@ -11,50 +11,50 @@
         label { display: block; text-align: left; font-size: 13px; font-weight: bold; color: #444; margin-top: 10px; }
         input, select { width: 100%; padding: 12px; margin: 5px 0; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; font-size: 15px; }
         .btn-gen { width: 100%; padding: 15px; background: #1a73e8; color: white; border: none; border-radius: 10px; font-size: 18px; font-weight: bold; cursor: pointer; margin-top: 15px; }
-        .btn-download { width: 100%; padding: 12px; background: #27ae60; color: white; border: none; border-radius: 10px; font-size: 16px; margin-top: 15px; cursor: pointer; }
+        .btn-download { width: 100%; padding: 12px; background: #27ae60; color: white; border: none; border-radius: 10px; font-size: 16px; margin-top: 15px; cursor: pointer; width: 100%; }
         .hidden { display: none; }
         .qr-header-info { margin-bottom: 15px; padding: 10px; background: #ffffff; border-radius: 10px; border: 2px solid #1a73e8; }
-        .qr-header-info h3 { margin: 5px 0; color: #1a73e8; font-size: 20px; text-transform: uppercase; }
-        .qr-header-info p { margin: 0; font-weight: bold; font-size: 18px; color: #333; }
-        #qr-display { background: white; padding: 15px; border-radius: 5px; margin: 10px 0; display: inline-block; }
+        #qr-display { background: white; padding: 10px; border-radius: 5px; margin: 10px 0; display: inline-block; }
+        #qr-img { width: 250px; height: 250px; }
     </style>
 </head>
 <body>
 
 <div class="card">
-    <h2>পাম্প ডিজিটাল কার্ড</h2>
+    <h2>পাম্প ডিজিটাল কার্ড জেনারেটর</h2>
     
     <div id="input-section">
         <label>মালিকের নাম:</label>
-        <input type="text" id="owner-name" placeholder="Name" required>
+        <input type="text" id="owner-name" placeholder="MD AKBAR" required>
         <label>মোবাইল নম্বর:</label>
         <input type="tel" id="mobile" maxlength="11" placeholder="017XXXXXXXX" required>
         <label>BRTA সার্কেল:</label>
         <select id="brta-name">
             <option value="">সিলেক্ট করুন</option>
-            <optgroup label="মেট্রো সার্কেল">
-                <option value="DHAKA-METRO">ঢাকা মেট্রো</option><option value="CHATTOGRAM-METRO">চট্টগ্রাম মেট্রো</option>
-                <option value="KHULNA-METRO">খুলনা মেট্রো</option><option value="RAJSHAHI-METRO">রাজশাহী মেট্রো</option>
-                <option value="SYLHET-METRO">সিলেট মেট্রো</option><option value="BARISHAL-METRO">বরিশাল মেট্রো</option>
-                <option value="RANGPUR-METRO">রংপুর মেট্রো</option><option value="GAZIPUR-METRO">গাজীপুর মেট্রো</option>
-            </optgroup>
-            <option value="FENI">ফেনী</option><option value="NOAKHALI">নোয়াখালী</option>
-            <option value="CUMILLA">কুমিল্লা</option><option value="BOGURA">বগুড়া</option>
-            </select>
+            <option value="DHAKA-METRO">DHAKA-METRO</option>
+            <option value="CHATTOGRAM-METRO">CHATTOGRAM-METRO</option>
+            <option value="SYLHET-METRO">SYLHET-METRO</option>
+            <option value="RAJSHAHI-METRO">RAJSHAHI-METRO</option>
+            <option value="KHULNA-METRO">KHULNA-METRO</option>
+            <option value="BARISHAL-METRO">BARISHAL-METRO</option>
+            <option value="RANGPUR-METRO">RANGPUR-METRO</option>
+            <option value="GAZIPUR-METRO">GAZIPUR-METRO</option>
+            <option value="FENI">FENI</option>
+            <option value="NOAKHALI">NOAKHALI</option>
+        </select>
         <label>গাড়ি নম্বর (৬ ডিজিট):</label>
         <input type="text" id="car-no" maxlength="6" placeholder="123456" required>
         <label>লাইসেন্স (শেষ ৫ ডিজিট):</label>
         <input type="text" id="license" maxlength="5" placeholder="54321" required>
-        <button class="btn-gen" onclick="generateCard()">কার্ড তৈরি করুন</button>
+        <button class="btn-gen" onclick="generateCard()">QR কোড তৈরি করুন</button>
     </div>
 
     <div id="qr-section" class="hidden">
         <div class="qr-header-info">
-            <h3 id="top-name"></h3>
-            <p id="top-car"></p>
+            <h3 id="top-name" style="margin:5px 0; color:#1a73e8;"></h3>
+            <p id="top-car" style="margin:0; font-weight:bold; font-size:20px; color:#333;"></p>
         </div>
-        <div id="qr-display">
-            </div>
+        <div id="qr-display"></div>
         <button class="btn-download" onclick="downloadFinalQR()">গ্যালারিতে সেভ করুন</button>
         <br>
         <button style="margin-top:15px; color:red; cursor:pointer; background:none; border:none; text-decoration:underline;" onclick="location.reload()">তথ্য সংশোধন</button>
@@ -78,37 +78,45 @@
         document.getElementById('input-section').classList.add('hidden');
         document.getElementById('qr-section').classList.remove('hidden');
         document.getElementById('top-name').innerText = name;
-        document.getElementById('top-car').innerText = brta + " - " + car;
+        document.getElementById('top-car').innerText = car; // শুধু ৬ ডিজিট নম্বর
 
         let qrData = `${name},${mobile},${brta},${car},${license}`;
         let qrUrl = "https://api.qrserver.com/v1/create-qr-code/?size=400x400&bgcolor=ffffff&data=" + encodeURIComponent(qrData);
         
-        document.getElementById('qr-display').innerHTML = `<img id="qr-img" src="${qrUrl}" crossorigin="anonymous" style="width:250px; height:250px;">`;
+        document.getElementById('qr-display').innerHTML = `<img id="qr-img" src="${qrUrl}" crossorigin="anonymous">`;
     }
 
     async function downloadFinalQR() {
         const img = document.getElementById('qr-img');
         const canvas = document.getElementById('qr-canvas');
         const ctx = canvas.getContext('2d');
+        const carNo = document.getElementById('car-no').value.trim();
 
+        // ক্যানভাস সাইজ (কিউআর কোড + নিচের টেক্সটের জন্য জায়গা)
         canvas.width = 400;
-        canvas.height = 400;
+        canvas.height = 500; 
 
-        // ১. আগে পুরো ক্যানভাসে সাদা রঙ ভরাট করা (যাতে কালো না হয়)
+        // ১. সাদা ব্যাকগ্রাউন্ড
         ctx.fillStyle = "#ffffff";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-        // ২. কিউআর কোডটি সাদা ব্যাকগ্রাউন্ডের ওপর বসানো
         const tempImg = new Image();
         tempImg.crossOrigin = "anonymous";
         tempImg.src = img.src;
         
         tempImg.onload = function() {
+            // ২. কিউআর কোড ড্র করা
             ctx.drawImage(tempImg, 0, 0, 400, 400);
             
-            // ৩. ডাউনলোড শুরু
+            // ৩. নিচে গাড়ির নম্বর লেখা (ইংরেজি অক্ষরে)
+            ctx.fillStyle = "#000000"; // কালো রঙ
+            ctx.font = "bold 60px Arial"; // বড় এবং স্পষ্ট ফন্ট
+            ctx.textAlign = "center";
+            ctx.fillText(carNo, 200, 460); // নম্বরটি কিউআর কোডের নিচে বসবে
+            
+            // ৪. সেভ করা
             const link = document.createElement('a');
-            link.download = 'Digital_Pump_Card.png';
+            link.download = carNo + '_PumpCard.png';
             link.href = canvas.toDataURL('image/png', 1.0);
             link.click();
         };
@@ -116,3 +124,4 @@
 </script>
 </body>
 </html>
+
