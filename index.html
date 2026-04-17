@@ -3,42 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>পাম্প ডিজিটাল কার্ড - প্রিন্ট ফিক্স</title>
+    <title>ফুয়েল রেজিস্ট্রেশন - Fuel Registration</title>
     <style>
         body { font-family: 'Arial', sans-serif; background-color: #f4f7f6; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
         .card { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 8px 25px rgba(0,0,0,0.1); width: 95%; max-width: 400px; text-align: center; }
-        h2 { color: #2c3e50; margin-bottom: 15px; font-size: 20px; border-bottom: 2px solid #1a73e8; padding-bottom: 10px; }
+        
+        /* নাম সেকশন স্টাইল */
+        .brand-name { margin-bottom: 20px; border-bottom: 2px solid #1a73e8; padding-bottom: 10px; }
+        .brand-name h2 { color: #1a73e8; margin: 0; font-size: 22px; }
+        .brand-name p { color: #555; margin: 5px 0 0; font-weight: bold; font-size: 14px; }
+
         label { display: block; text-align: left; font-size: 12px; font-weight: bold; color: #444; margin-top: 10px; }
         input, select { width: 100%; padding: 12px; margin: 5px 0; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; font-size: 15px; }
         .btn-gen { width: 100%; padding: 15px; background: #1a73e8; color: white; border: none; border-radius: 10px; font-size: 18px; font-weight: bold; cursor: pointer; margin-top: 15px; }
         .btn-download { width: 100%; padding: 12px; background: #27ae60; color: white; border: none; border-radius: 10px; font-size: 16px; margin-top: 15px; cursor: pointer; width: 100%; }
         .hidden { display: none; }
-        .qr-header-info { margin-bottom: 15px; padding: 10px; background: #ffffff; border-radius: 10px; border: 2px solid #1a73e8; }
-        #qr-display img { width: 250px; height: 250px; }
+        
+        #print-area { 
+            border: 3px solid #1a73e8; 
+            padding: 15px; 
+            border-radius: 15px; 
+            display: inline-block; 
+            background: #fff;
+        }
+        .qr-header-info { margin-bottom: 15px; border-bottom: 2px dashed #ccc; padding-bottom: 10px; }
+        #qr-display img { width: 250px; height: 250px; display: block; margin: 0 auto; }
     </style>
 </head>
 <body>
 
 <div class="card">
-    <h2>পাম্প ডিজিটাল কার্ড জেনারেটর</h2>
+    <div class="brand-name">
+        <h2>ফুয়েল রেজিস্ট্রেশন</h2>
+        <p>Fuel Registration</p>
+    </div>
     
     <div id="input-section">
         <label>মালিকের নাম (English):</label>
         <input type="text" id="owner-name" placeholder="Ex: MD AKBAR">
+
         <label>মোবাইল নম্বর (ঠিক ১১ ডিজিট):</label>
-        <input type="text" id="mobile" maxlength="11" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+        <input type="text" id="mobile" maxlength="11" placeholder="017XXXXXXXX" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+
         <label>BRTA সার্কেল:</label>
         <select id="brta-name">
             <option value="">-- বেছে নিন --</option>
-            <option value="DHAKA-METRO">DHAKA-METRO</option>
-            <option value="CHATTOGRAM-METRO">CHATTOGRAM-METRO</option>
-            <option value="KHULNA-METRO">KHULNA-METRO</option>
-            <option value="RAJSHAHI-METRO">RAJSHAHI-METRO</option>
-            <option value="SYLHET-METRO">SYLHET-METRO</option>
-            <option value="BARISHAL-METRO">BARISHAL-METRO</option>
-            <option value="RANGPUR-METRO">RANGPUR-METRO</option>
-            <option value="GAZIPUR-METRO">GAZIPUR-METRO</option>
-            </select>
+            <optgroup label="মেট্রো সার্কেল">
+                <option value="BARISHAL-METRO">BARISHAL-METRO</option>
+                <option value="CHATTOGRAM-METRO">CHATTOGRAM-METRO</option>
+                <option value="DHAKA-METRO">DHAKA-METRO</option>
+                <option value="GAZIPUR-METRO">GAZIPUR-METRO</option>
+                <option value="KHULNA-METRO">KHULNA-METRO</option>
+                <option value="RAJSHAHI-METRO">RAJSHAHI-METRO</option>
+                <option value="RANGPUR-METRO">RANGPUR-METRO</option>
+                <option value="SYLHET-METRO">SYLHET-METRO</option>
+            </optgroup>
+            <optgroup label="জেলা সার্কেল">
+                <option value="BAGERHAT">BAGERHAT</option><option value="BANDARBAN">BANDARBAN</option><option value="BARGUNA">BARGUNA</option><option value="BARISHAL">BARISHAL</option><option value="BHOLA">BHOLA</option><option value="BOGURA">BOGURA</option><option value="BRAHMANBARIA">BRAHMANBARIA</option><option value="CHANDPUR">CHANDPUR</option><option value="CHAPAINAWABGANJ">CHAPAINAWABGANJ</option><option value="CHATTOGRAM">CHATTOGRAM</option><option value="CHUADANGA">CHUADANGA</option><option value="CUMILLA">CUMILLA</option><option value="COX-BAZAR">COX-BAZAR</option><option value="DHAKA">DHAKA</option><option value="DINAJPUR">DINAJPUR</option><option value="FARIDPUR">FARIDPUR</option><option value="FENI">FENI</option><option value="GAIBANDHA">GAIBANDHA</option><option value="GAZIPUR">GAZIPUR</option><option value="GOPALGANJ">GOPALGANJ</option><option value="HABIGANJ">HABIGANJ</option><option value="JAMALPUR">JAMALPUR</option><option value="JESSORE">JESSORE</option><option value="JHALOKATI">JHALOKATI</option><option value="JHENAIDAH">JHENAIDAH</option><option value="JOYPURHAT">JOYPURHAT</option><option value="KHAGRACHHARI">KHAGRACHHARI</option><option value="KHULNA">KHULNA</option><option value="KISHOREGANJ">KISHOREGANJ</option><option value="KURIGRAM">KURIGRAM</option><option value="KUSHTIA">KUSHTIA</option><option value="LAKSHMIPUR">LAKSHMIPUR</option><option value="LALMONIRHAT">LALMONIRHAT</option><option value="MADARIPUR">MADARIPUR</option><option value="MAGURA">MAGURA</option><option value="MANIKGANJ">MANIKGANJ</option><option value="MEHERPUR">MEHERPUR</option><option value="MOULVIBAZAR">MOULVIBAZAR</option><option value="MUNSHIGANJ">MUNSHIGANJ</option><option value="MYMENSINGH">MYMENSINGH</option><option value="NAOGAON">NAOGAON</option><option value="NARAIL">NARAIL</option><option value="NARAYANGANJ">NARAYANGANJ</option><option value="NARSINGDI">NARSINGDI</option><option value="NATORE">NATORE</option><option value="NETROKONA">NETROKONA</option><option value="NILPHAMARI">NILPHAMARI</option><option value="NOAKHALI">NOAKHALI</option><option value="PABNA">PABNA</option><option value="PANCHAGARH">PANCHAGARH</option><option value="PATUAKHALI">PATUAKHALI</option><option value="PIROJPUR">PIROJPUR</option><option value="RAJBARI">RAJBARI</option><option value="RAJSHAHI">RAJSHAHI</option><option value="RANGAMATI">RANGAMATI</option><option value="RANGPUR">RANGPUR</option><option value="SATKHIRA">SATKHIRA</option><option value="SHARIATPUR">SHARIATPUR</option><option value="SHERPUR">SHERPUR</option><option value="SIRAJGANJ">SIRAJGANJ</option><option value="SUNAMGANJ">SUNAMGANJ</option><option value="SYLHET">SYLHET</option><option value="TANGAIL">TANGAIL</option><option value="THAKURGAON">THAKURGAON</option>
+            </optgroup>
+        </select>
+
         <label>গাড়ির ধরণ:</label>
         <select id="vehicle-type">
             <option value="">-- বেছে নিন --</option>
@@ -46,10 +70,12 @@
             <option value="Car">Car</option>
             <option value="Others">Others</option>
         </select>
-        <label>গাড়ি নম্বর (৬ ডিজিট):</label>
-        <input type="text" id="car-no" maxlength="6" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
-        <label>লাইসেন্স (৫ ডিজিট):</label>
-        <input type="text" id="license" maxlength="5" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+
+        <label>গাড়ি নম্বর (ঠিক ৬ ডিজিট):</label>
+        <input type="text" id="car-no" maxlength="6" placeholder="Ex: 123456" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+
+        <label>লাইসেন্সের শেষের ৪টি ডিজিট:</label>
+        <input type="text" id="license" maxlength="4" placeholder="Ex: 5432" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
 
         <button class="btn-gen" onclick="generateCard()">QR কোড তৈরি করুন</button>
     </div>
@@ -57,8 +83,8 @@
     <div id="qr-section" class="hidden">
         <div id="print-area">
             <div class="qr-header-info">
-                <h3 id="top-name" style="margin:5px 0; color:#1a73e8; text-transform: uppercase;"></h3>
-                <p id="top-car-display" style="margin:0; font-weight:bold; font-size:22px; color:#333;"></p>
+                <h3 id="top-name" style="margin:5px 0; color:#1a73e8; text-transform: uppercase; font-size: 18px;"></h3>
+                <p id="top-car-display" style="margin:0; font-weight:bold; font-size:20px; color:#333;"></p>
             </div>
             <div id="qr-display"></div>
         </div>
@@ -79,8 +105,18 @@
         let car = document.getElementById('car-no').value.trim();
         let license = document.getElementById('license').value.trim();
 
-        if (!name || mobile.length !== 11 || !brta || !vType || car.length !== 6 || license.length !== 5) {
-            alert("⚠️ ভুল: সবগুলো ঘর সঠিকভাবে পূরণ করুন!"); return;
+        // বিস্তারিত এরর মেসেজ
+        let errors = [];
+        if (!name) errors.push("● মালিকের নাম লিখুন (ইংরেজিতে)।");
+        if (mobile.length !== 11) errors.push("● মোবাইল নম্বরটি ঠিক ১১ ডিজিটের হতে হবে।");
+        if (!brta) errors.push("● BRTA সার্কেলটি নির্বাচন করুন।");
+        if (!vType) errors.push("● গাড়ির ধরণ নির্বাচন করুন।");
+        if (car.length !== 6) errors.push("● গাড়ি নম্বরটি ঠিক ৬ ডিজিটের হতে হবে।");
+        if (license.length !== 4) errors.push("● লাইসেন্সের শেষের ৪টি ডিজিট সঠিকভাবে লিখুন।");
+
+        if (errors.length > 0) {
+            alert("⚠️ নিচের ভুলগুলো সংশোধন করুন:\n\n" + errors.join("\n"));
+            return;
         }
 
         document.getElementById('input-section').classList.add('hidden');
@@ -95,23 +131,19 @@
     }
 
     function printCard() {
-        const printContent = document.getElementById('print-area').innerHTML;
-        const originalContent = document.body.innerHTML;
-        
+        const printContent = document.getElementById('print-area').outerHTML;
         const printWindow = window.open('', '', 'height=600,width=800');
-        printWindow.document.write('<html><head><title>Print Card</title>');
-        printWindow.document.write('<style>body{display:flex;justify-content:center;align-items:center;height:100vh;flex-direction:column;text-align:center;font-family:Arial;} .qr-header-info{margin-bottom:10px;border:2px solid #1a73e8;padding:10px;border-radius:10px;width:3.5in;} img{width:2.5in;}</style>');
+        printWindow.document.write('<html><head><title>Fuel Registration Print</title>');
+        printWindow.document.write('<style>body{display:flex;justify-content:center;align-items:center;height:100vh;text-align:center;font-family:Arial;} #print-area{border:3px solid #1a73e8; padding:20px; border-radius:15px; width:3.5in;} .qr-header-info{border-bottom:2px dashed #ccc; margin-bottom:15px; padding-bottom:10px;} h3{margin:5px 0; color:#1a73e8; text-transform:uppercase;} p{margin:0; font-weight:bold; font-size:22px;} img{width:2.5in;}</style>');
         printWindow.document.write('</head><body>');
         printWindow.document.write(printContent);
         printWindow.document.write('</body></html>');
-        
         printWindow.document.close();
         
-        // কিউআর ইমেজ লোড হওয়ার জন্য সামান্য সময় দেওয়া
         setTimeout(() => {
             printWindow.print();
             printWindow.close();
-        }, 500);
+        }, 600);
     }
 
     async function downloadFinalQR() {
@@ -121,21 +153,25 @@
         const brta = document.getElementById('brta-name').value;
         const carNo = document.getElementById('car-no').value.trim();
         
-        canvas.width = 400; canvas.height = 550;
+        canvas.width = 450; canvas.height = 600;
         ctx.fillStyle = "#ffffff";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        ctx.strokeStyle = "#1a73e8";
+        ctx.lineWidth = 10;
+        ctx.strokeRect(5, 5, canvas.width-10, canvas.height-10);
 
         const tempImg = new Image();
         tempImg.crossOrigin = "anonymous";
         tempImg.src = img.src;
         tempImg.onload = function() {
-            ctx.drawImage(tempImg, 0, 0, 400, 400);
+            ctx.drawImage(tempImg, 25, 20, 400, 400);
             ctx.fillStyle = "#000000";
             ctx.font = "bold 34px Arial";
             ctx.textAlign = "center";
-            ctx.fillText(brta + " " + carNo, 200, 480); 
+            ctx.fillText(brta + " " + carNo, 225, 530); 
             const link = document.createElement('a');
-            link.download = carNo + '_PumpCard.jpg';
+            link.download = carNo + '_FuelRegistration.jpg';
             link.href = canvas.toDataURL('image/jpeg', 0.9);
             link.click();
         };
