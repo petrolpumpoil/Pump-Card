@@ -7,37 +7,17 @@
     <style>
         body { font-family: 'Arial', sans-serif; background-color: #f4f7f6; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
         .card { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 8px 25px rgba(0,0,0,0.1); width: 95%; max-width: 400px; text-align: center; }
-        
         .brand-name { margin-bottom: 20px; border-bottom: 2px solid #1a73e8; padding-bottom: 10px; }
         .brand-name h2 { color: #1a73e8; margin: 0; font-size: 22px; }
         .brand-name p { color: #555; margin: 5px 0 0; font-weight: bold; font-size: 14px; }
-
         label { display: block; text-align: left; font-size: 12px; font-weight: bold; color: #444; margin-top: 10px; }
         input, select { width: 100%; padding: 12px; margin: 5px 0; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; font-size: 15px; }
         .btn-gen { width: 100%; padding: 15px; background: #1a73e8; color: white; border: none; border-radius: 10px; font-size: 18px; font-weight: bold; cursor: pointer; margin-top: 15px; }
         .btn-download { width: 100%; padding: 12px; background: #27ae60; color: white; border: none; border-radius: 10px; font-size: 16px; margin-top: 15px; cursor: pointer; width: 100%; }
         .hidden { display: none; }
-        
-        /* কার্ড বর্ডার স্টাইল */
-        #print-area { 
-            border: 3px solid #1a73e8; 
-            padding: 15px; 
-            border-radius: 15px; 
-            display: inline-block; 
-            background: #fff;
-            margin: 0 auto;
-        }
+        #print-area { border: 3px solid #1a73e8; padding: 15px; border-radius: 15px; display: inline-block; background: #fff; margin: 0 auto; }
         .qr-header-info { margin-bottom: 15px; border-bottom: 2px dashed #ccc; padding-bottom: 10px; }
         #qr-display img { width: 250px; height: 250px; display: block; margin: 0 auto; }
-
-        /* প্রিন্ট সেটিংস: এক পেজে রাখার জন্য */
-        @media print {
-            @page { size: auto; margin: 0; }
-            body { background: white; margin: 0; padding: 0; }
-            .card, .btn-download, .btn-gen, #input-section, .brand-name, button { display: none !important; }
-            #qr-section { display: block !important; width: 100%; height: 100vh; display: flex !important; justify-content: center; align-items: center; }
-            #print-area { border: 2px solid #1a73e8; }
-        }
     </style>
 </head>
 <body>
@@ -51,28 +31,20 @@
     <div id="input-section">
         <label>মালিকের নাম (English):</label>
         <input type="text" id="owner-name" placeholder="Ex: MD AKBAR">
-
         <label>মোবাইল নম্বর (ঠিক ১১ ডিজিট):</label>
-        <input type="text" id="mobile" maxlength="11" placeholder="017XXXXXXXX" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
-
+        <input type="text" id="mobile" maxlength="11" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
         <label>BRTA সার্কেল:</label>
         <select id="brta-name">
             <option value="">-- বেছে নিন --</option>
-            <optgroup label="মেট্রো সার্কেল">
-                <option value="BARISHAL-METRO">BARISHAL-METRO</option>
-                <option value="CHATTOGRAM-METRO">CHATTOGRAM-METRO</option>
-                <option value="DHAKA-METRO">DHAKA-METRO</option>
-                <option value="GAZIPUR-METRO">GAZIPUR-METRO</option>
-                <option value="KHULNA-METRO">KHULNA-METRO</option>
-                <option value="RAJSHAHI-METRO">RAJSHAHI-METRO</option>
-                <option value="RANGPUR-METRO">RANGPUR-METRO</option>
-                <option value="SYLHET-METRO">SYLHET-METRO</option>
-            </optgroup>
-            <optgroup label="জেলা সার্কেল">
-                <option value="DHAKA">DHAKA</option><option value="GAZIPUR">GAZIPUR</option><option value="NARAYANGANJ">NARAYANGANJ</option><option value="CHATTOGRAM">CHATTOGRAM</option><option value="BOGURA">BOGURA</option>
-                </optgroup>
+            <option value="DHAKA-METRO">DHAKA-METRO</option>
+            <option value="CHATTOGRAM-METRO">CHATTOGRAM-METRO</option>
+            <option value="KHULNA-METRO">KHULNA-METRO</option>
+            <option value="RAJSHAHI-METRO">RAJSHAHI-METRO</option>
+            <option value="SYLHET-METRO">SYLHET-METRO</option>
+            <option value="BARISHAL-METRO">BARISHAL-METRO</option>
+            <option value="RANGPUR-METRO">RANGPUR-METRO</option>
+            <option value="GAZIPUR-METRO">GAZIPUR-METRO</option>
         </select>
-
         <label>গাড়ির ধরণ:</label>
         <select id="vehicle-type">
             <option value="">-- বেছে নিন --</option>
@@ -80,12 +52,10 @@
             <option value="Car">Car</option>
             <option value="Others">Others</option>
         </select>
-
         <label>গাড়ি নম্বর (ঠিক ৬ ডিজিট):</label>
-        <input type="text" id="car-no" maxlength="6" placeholder="Ex: 123456" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
-
+        <input type="text" id="car-no" maxlength="6" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
         <label>লাইসেন্সের শেষের ৪টি ডিজিট:</label>
-        <input type="text" id="license" maxlength="4" placeholder="Ex: 5432" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+        <input type="text" id="license" maxlength="4" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
 
         <button class="btn-gen" onclick="generateCard()">QR কোড তৈরি করুন</button>
     </div>
@@ -99,7 +69,7 @@
             <div id="qr-display"></div>
         </div>
         <button class="btn-download" onclick="downloadFinalQR()">গ্যালারিতে সেভ করুন</button>
-        <button class="btn-download" style="background:#1a73e8;" onclick="window.print()">প্রিন্ট করুন</button>
+        <button class="btn-download" style="background:#1a73e8;" onclick="printCard()">প্রিন্ট করুন</button>
         <button style="margin-top:15px; color:red; cursor:pointer; background:none; border:none; text-decoration:underline;" onclick="location.reload()">তথ্য সংশোধন</button>
     </div>
 </div>
@@ -115,17 +85,8 @@
         let car = document.getElementById('car-no').value.trim();
         let license = document.getElementById('license').value.trim();
 
-        let errors = [];
-        if (!name) errors.push("● মালিকের নাম লিখুন।");
-        if (mobile.length !== 11) errors.push("● মোবাইল ঠিক ১১ ডিজিট হতে হবে।");
-        if (!brta) errors.push("● BRTA সার্কেল নির্বাচন করুন।");
-        if (!vType) errors.push("● গাড়ির ধরণ নির্বাচন করুন।");
-        if (car.length !== 6) errors.push("● গাড়ি নম্বর ঠিক ৬ ডিজিট হতে হবে।");
-        if (license.length !== 4) errors.push("● লাইসেন্সের শেষের ৪টি ডিজিট দিন।");
-
-        if (errors.length > 0) {
-            alert("⚠️ ভুলগুলো সংশোধন করুন:\n\n" + errors.join("\n"));
-            return;
+        if (!name || mobile.length !== 11 || !brta || !vType || car.length !== 6 || license.length !== 4) {
+            alert("⚠️ ভুল: সবগুলো ঘর সঠিকভাবে পূরণ করুন!"); return;
         }
 
         document.getElementById('input-section').classList.add('hidden');
@@ -139,6 +100,30 @@
         document.getElementById('qr-display').innerHTML = `<img id="qr-img" src="${qrUrl}" crossorigin="anonymous">`;
     }
 
+    function printCard() {
+        const printContent = document.getElementById('print-area').innerHTML;
+        const printWindow = window.open('', '', 'height=600,width=800');
+        
+        printWindow.document.write('<html><head><title>Print Fuel Card</title>');
+        printWindow.document.write('<style>body{display:flex;justify-content:center;align-items:center;height:100vh;margin:0;font-family:Arial;} #p-box{border:3px solid #1a73e8; padding:15px; border-radius:15px; text-align:center; width:3.5in;} .qr-header-info{border-bottom:2px dashed #ccc; margin-bottom:15px; padding-bottom:10px;} h3{margin:5px 0; color:#1a73e8; text-transform:uppercase; font-size:18px;} p{margin:0; font-weight:bold; font-size:22px;} img{width:2.5in; height:2.5in;}</style>');
+        printWindow.document.write('</head><body>');
+        printWindow.document.write('<div id="p-box">' + printContent + '</div>');
+        printWindow.document.write('</body></html>');
+        
+        printWindow.document.close();
+        
+        // ইমেজ লোড হওয়ার জন্য অপেক্ষা করে প্রিন্ট কমান্ড
+        const img = printWindow.document.querySelector('img');
+        if (img.complete) {
+            printWindow.print();
+        } else {
+            img.onload = function() {
+                printWindow.print();
+                printWindow.close();
+            };
+        }
+    }
+
     async function downloadFinalQR() {
         const img = document.getElementById('qr-img');
         const canvas = document.getElementById('qr-canvas');
@@ -149,8 +134,7 @@
         canvas.width = 450; canvas.height = 600;
         ctx.fillStyle = "#ffffff";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
-        ctx.strokeStyle = "#1a73e8";
-        ctx.lineWidth = 10;
+        ctx.strokeStyle = "#1a73e8"; ctx.lineWidth = 10;
         ctx.strokeRect(5, 5, canvas.width-10, canvas.height-10);
 
         const tempImg = new Image();
@@ -158,9 +142,7 @@
         tempImg.src = img.src;
         tempImg.onload = function() {
             ctx.drawImage(tempImg, 25, 20, 400, 400);
-            ctx.fillStyle = "#000000";
-            ctx.font = "bold 34px Arial";
-            ctx.textAlign = "center";
+            ctx.fillStyle = "#000000"; ctx.font = "bold 34px Arial"; ctx.textAlign = "center";
             ctx.fillText(brta + " " + carNo, 225, 530); 
             const link = document.createElement('a');
             link.download = carNo + '_FuelCard.jpg';
@@ -171,4 +153,3 @@
 </script>
 </body>
 </html>
-
