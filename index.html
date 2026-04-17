@@ -63,6 +63,9 @@
             </optgroup>
         </select>
 
+        <label>গাড়ি নম্বর (ঠিক ৬ ডিজিট):</label>
+        <input type="text" id="car-no" maxlength="6" placeholder="Ex: 123456" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+
         <label>গাড়ির ধরণ:</label>
         <select id="vehicle-type">
             <option value="">-- বেছে নিন --</option>
@@ -70,9 +73,6 @@
             <option value="Car">Car</option>
             <option value="Others">Others</option>
         </select>
-
-        <label>গাড়ি নম্বর (ঠিক ৬ ডিজিট):</label>
-        <input type="text" id="car-no" maxlength="6" placeholder="Ex: 123456" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
 
         <label>লাইসেন্সের শেষের ৪টি ডিজিট:</label>
         <input type="text" id="license" maxlength="4" placeholder="Ex: 5432" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
@@ -101,8 +101,8 @@
         let name = document.getElementById('owner-name').value.trim().toUpperCase();
         let mobile = document.getElementById('mobile').value.trim();
         let brta = document.getElementById('brta-name').value;
-        let vType = document.getElementById('vehicle-type').value;
         let car = document.getElementById('car-no').value.trim();
+        let vType = document.getElementById('vehicle-type').value;
         let license = document.getElementById('license').value.trim();
 
         // বিস্তারিত এরর মেসেজ
@@ -110,8 +110,8 @@
         if (!name) errors.push("● মালিকের নাম লিখুন (ইংরেজিতে)।");
         if (mobile.length !== 11) errors.push("● মোবাইল নম্বরটি ঠিক ১১ ডিজিটের হতে হবে।");
         if (!brta) errors.push("● BRTA সার্কেলটি নির্বাচন করুন।");
-        if (!vType) errors.push("● গাড়ির ধরণ নির্বাচন করুন।");
         if (car.length !== 6) errors.push("● গাড়ি নম্বরটি ঠিক ৬ ডিজিটের হতে হবে।");
+        if (!vType) errors.push("● গাড়ির ধরণ নির্বাচন করুন।");
         if (license.length !== 4) errors.push("● লাইসেন্সের শেষের ৪টি ডিজিট সঠিকভাবে লিখুন।");
 
         if (errors.length > 0) {
