@@ -124,7 +124,8 @@
         document.getElementById('top-name').innerText = name;
         document.getElementById('top-car-display').innerText = brta + " " + car;
 
-        let qrData = `${name},${mobile},${brta},${car},${license},${vType}`;
+        // আপনার অনুরোধ অনুযায়ী 'MKG' প্রিফিক্সটি এখানে যুক্ত করা হয়েছে
+        let qrData = `MKG${name},${mobile},${brta},${car},${license},${vType}`;
         let qrUrl = "https://api.qrserver.com/v1/create-qr-code/?size=400x400&bgcolor=ffffff&data=" + encodeURIComponent(qrData);
         
         document.getElementById('qr-display').innerHTML = `<img id="qr-img" src="${qrUrl}" crossorigin="anonymous">`;
@@ -179,4 +180,3 @@
 </script>
 </body>
 </html>
-
