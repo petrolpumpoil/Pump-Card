@@ -8,6 +8,7 @@
         body { font-family: 'Arial', sans-serif; background-color: #f4f7f6; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
         .card { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 8px 25px rgba(0,0,0,0.1); width: 95%; max-width: 400px; text-align: center; }
         
+        /* নাম সেকশন স্টাইল */
         .brand-name { margin-bottom: 20px; border-bottom: 2px solid #1a73e8; padding-bottom: 10px; }
         .brand-name h2 { color: #1a73e8; margin: 0; font-size: 22px; }
         .brand-name p { color: #555; margin: 5px 0 0; font-weight: bold; font-size: 14px; }
@@ -104,8 +105,17 @@
         let vType = document.getElementById('vehicle-type').value;
         let license = document.getElementById('license').value.trim();
 
-        if (!name || mobile.length !== 11 || !brta || car.length !== 6 || !vType || license.length !== 4) {
-            alert("⚠️ সবগুলো তথ্য সঠিকভাবে পূরণ করুন।");
+        // বিস্তারিত এরর মেসেজ
+        let errors = [];
+        if (!name) errors.push("● মালিকের নাম লিখুন (ইংরেজিতে)।");
+        if (mobile.length !== 11) errors.push("● মোবাইল নম্বরটি ঠিক ১১ ডিজিটের হতে হবে।");
+        if (!brta) errors.push("● BRTA সার্কেলটি নির্বাচন করুন।");
+        if (car.length !== 6) errors.push("● গাড়ি নম্বরটি ঠিক ৬ ডিজিটের হতে হবে।");
+        if (!vType) errors.push("● গাড়ির ধরণ নির্বাচন করুন।");
+        if (license.length !== 4) errors.push("● লাইসেন্সের শেষের ৪টি ডিজিট সঠিকভাবে লিখুন।");
+
+        if (errors.length > 0) {
+            alert("⚠️ নিচের ভুলগুলো সংশোধন করুন:\n\n" + errors.join("\n"));
             return;
         }
 
@@ -114,53 +124,27 @@
         document.getElementById('top-name').innerText = name;
         document.getElementById('top-car-display').innerText = brta + " " + car;
 
-        // স্ক্যান রেজাল্ট ডাটা
-        let qrData = `Owner: ${name}\nMobile: ${mobile}\nBRTA: ${brta}\nCar No: ${car}\nLicense: ${license}\nType: ${vType}`;
+        // আপনার অনুরোধ অনুযায়ী 'MKG' প্রিফিক্সটি এখানে যুক্ত করা হয়েছে
+        let qrData = `MKG${name},${mobile},${brta},${car},${license},${vType}`;
         let qrUrl = "https://api.qrserver.com/v1/create-qr-code/?size=400x400&bgcolor=ffffff&data=" + encodeURIComponent(qrData);
         
-        let imgContainer = document.getElementById('qr-display');
-        const tempImg = new Image();
-        tempImg.crossOrigin = "anonymous";
-        tempImg.src = qrUrl;
-        tempImg.onload = function() {
-            const canvas = document.createElement('canvas');
-            canvas.width = 400; canvas.height = 400;
-            const ctx = canvas.getContext('2d');
-            ctx.drawImage(tempImg, 0, 0, 400, 400);
-
-            // মাঝখানে MKG লেখা (বক্সটি ছোট করে টাইট রাখা হয়েছে)
-            const text = "MKG";
-            ctx.font = "bold 24px Arial";
-            const textMetrics = ctx.measureText(text);
-            const boxWidth = textMetrics.width + 10;
-            const boxHeight = 32;
-
-            ctx.fillStyle = "white";
-            ctx.fillRect(200 - (boxWidth/2), 200 - (boxHeight/2), boxWidth, boxHeight);
-            
-            ctx.fillStyle = "#1a73e8";
-            ctx.textAlign = "center";
-            ctx.textBaseline = "middle";
-            ctx.fillText(text, 200, 200);
-
-            const finalImg = new Image();
-            finalImg.id = "qr-img";
-            finalImg.src = canvas.toDataURL();
-            imgContainer.innerHTML = "";
-            imgContainer.appendChild(finalImg);
-        };
+        document.getElementById('qr-display').innerHTML = `<img id="qr-img" src="${qrUrl}" crossorigin="anonymous">`;
     }
 
     function printCard() {
         const printContent = document.getElementById('print-area').outerHTML;
         const printWindow = window.open('', '', 'height=600,width=800');
-        printWindow.document.write('<html><head><title>Print</title>');
-        printWindow.document.write('<style>body{text-align:center;font-family:Arial;} #print-area{border:3px solid #1a73e8; padding:20px; border-radius:15px; width:3.5in; display:inline-block;} img{width:2.5in;}</style>');
+        printWindow.document.write('<html><head><title>Fuel Registration Print</title>');
+        printWindow.document.write('<style>body{display:flex;justify-content:center;align-items:center;height:100vh;text-align:center;font-family:Arial;} #print-area{border:3px solid #1a73e8; padding:20px; border-radius:15px; width:3.5in;} .qr-header-info{border-bottom:2px dashed #ccc; margin-bottom:15px; padding-bottom:10px;} h3{margin:5px 0; color:#1a73e8; text-transform:uppercase;} p{margin:0; font-weight:bold; font-size:22px;} img{width:2.5in;}</style>');
         printWindow.document.write('</head><body>');
         printWindow.document.write(printContent);
         printWindow.document.write('</body></html>');
         printWindow.document.close();
-        setTimeout(() => { printWindow.print(); printWindow.close(); }, 600);
+        
+        setTimeout(() => {
+            printWindow.print();
+            printWindow.close();
+        }, 600);
     }
 
     async function downloadFinalQR() {
@@ -169,41 +153,26 @@
         const ctx = canvas.getContext('2d');
         const brta = document.getElementById('brta-name').value;
         const carNo = document.getElementById('car-no').value.trim();
-        const vType = document.getElementById('vehicle-type').value;
-        const owner = document.getElementById('owner-name').value.trim().toUpperCase();
         
-        canvas.width = 450; canvas.height = 680;
+        canvas.width = 450; canvas.height = 600;
         ctx.fillStyle = "#ffffff";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
-        
+
         ctx.strokeStyle = "#1a73e8";
         ctx.lineWidth = 10;
         ctx.strokeRect(5, 5, canvas.width-10, canvas.height-10);
 
         const tempImg = new Image();
+        tempImg.crossOrigin = "anonymous";
         tempImg.src = img.src;
         tempImg.onload = function() {
             ctx.drawImage(tempImg, 25, 20, 400, 400);
-            
             ctx.fillStyle = "#000000";
-            ctx.textAlign = "center";
-            
-            // ১. গাড়ির নম্বর
             ctx.font = "bold 34px Arial";
-            ctx.fillText(brta + " " + carNo, 225, 480); 
-            
-            // ২. গাড়ির ধরন (ব্র্যাকেটে)
-            ctx.font = "bold 26px Arial";
-            ctx.fillStyle = "#555555";
-            ctx.fillText("(" + vType + ")", 225, 535);
-
-            // ৩. মালিকের নাম
-            ctx.font = "bold 30px Arial";
-            ctx.fillStyle = "#000000";
-            ctx.fillText(owner, 225, 600);
-            
+            ctx.textAlign = "center";
+            ctx.fillText(brta + " " + carNo, 225, 530); 
             const link = document.createElement('a');
-            link.download = carNo + '_FuelPass.jpg';
+            link.download = carNo + '_FuelRegistration.jpg';
             link.href = canvas.toDataURL('image/jpeg', 0.9);
             link.click();
         };
