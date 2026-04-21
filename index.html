@@ -7,7 +7,7 @@
     <style>
         body { font-family: 'Arial', sans-serif; background-color: #f4f7f6; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
         .card { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 8px 25px rgba(0,0,0,0.1); width: 95%; max-width: 400px; text-align: center; }
-        
+       
         /* নাম সেকশন স্টাইল */
         .brand-name { margin-bottom: 20px; border-bottom: 2px solid #1a73e8; padding-bottom: 10px; }
         .brand-name h2 { color: #1a73e8; margin: 0; font-size: 22px; }
@@ -18,12 +18,12 @@
         .btn-gen { width: 100%; padding: 15px; background: #1a73e8; color: white; border: none; border-radius: 10px; font-size: 18px; font-weight: bold; cursor: pointer; margin-top: 15px; }
         .btn-download { width: 100%; padding: 12px; background: #27ae60; color: white; border: none; border-radius: 10px; font-size: 16px; margin-top: 15px; cursor: pointer; width: 100%; }
         .hidden { display: none; }
-        
-        #print-area { 
-            border: 3px solid #1a73e8; 
-            padding: 15px; 
-            border-radius: 15px; 
-            display: inline-block; 
+       
+        #print-area {
+            border: 3px solid #1a73e8;
+            padding: 15px;
+            border-radius: 15px;
+            display: inline-block;
             background: #fff;
         }
         .qr-header-info { margin-bottom: 15px; border-bottom: 2px dashed #ccc; padding-bottom: 10px; }
@@ -37,7 +37,7 @@
         <h2>ফুয়েল রেজিস্ট্রেশন</h2>
         <p>Fuel Registration</p>
     </div>
-    
+   
     <div id="input-section">
         <label>মালিকের নাম (English):</label>
         <input type="text" id="owner-name" placeholder="Ex: MD AKBAR">
@@ -124,10 +124,9 @@
         document.getElementById('top-name').innerText = name;
         document.getElementById('top-car-display').innerText = brta + " " + car;
 
-        // আপনার অনুরোধ অনুযায়ী 'MKG' প্রিফিক্সটি এখানে যুক্ত করা হয়েছে
-        let qrData = `MKG${name},${mobile},${brta},${car},${license},${vType}`;
+        let qrData = `${name},${mobile},${brta},${car},${license},${vType}`;
         let qrUrl = "https://api.qrserver.com/v1/create-qr-code/?size=400x400&bgcolor=ffffff&data=" + encodeURIComponent(qrData);
-        
+       
         document.getElementById('qr-display').innerHTML = `<img id="qr-img" src="${qrUrl}" crossorigin="anonymous">`;
     }
 
@@ -140,7 +139,7 @@
         printWindow.document.write(printContent);
         printWindow.document.write('</body></html>');
         printWindow.document.close();
-        
+       
         setTimeout(() => {
             printWindow.print();
             printWindow.close();
@@ -153,7 +152,7 @@
         const ctx = canvas.getContext('2d');
         const brta = document.getElementById('brta-name').value;
         const carNo = document.getElementById('car-no').value.trim();
-        
+       
         canvas.width = 450; canvas.height = 600;
         ctx.fillStyle = "#ffffff";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -170,7 +169,7 @@
             ctx.fillStyle = "#000000";
             ctx.font = "bold 34px Arial";
             ctx.textAlign = "center";
-            ctx.fillText(brta + " " + carNo, 225, 530); 
+            ctx.fillText(brta + " " + carNo, 225, 530);
             const link = document.createElement('a');
             link.download = carNo + '_FuelRegistration.jpg';
             link.href = canvas.toDataURL('image/jpeg', 0.9);
